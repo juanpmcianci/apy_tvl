@@ -53,9 +53,10 @@ def build_df(token_address: str, start_date: str, end_date: str, decimals: int =
     dataframes = [data_to_dataframe(run_query(api_url, create_query(ts, reserve_id))['data']['reserve']['paramsHistory']) for ts in tqdm(timestamps)]
 
     final_df = pd.concat(dataframes, ignore_index=True)
+    cols=['variableBorrowRate', 'liquidityRate', 'stableBorrowRate']
     
-
-    final_df[['variableBorrowRate', 'liquidityRate', 'stableBorrowRate']] /= RAY
+    for c in cols: 
+        final_df[c]=final_df[c].aaply(lambda x: float(x))/ RAY
 
     final_df['depositAPY'] = ((1 + final_df.liquidityRate / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR) - 1
     final_df['variableBorrowAPY'] = ((1 + final_df.variableBorrowRate / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR) - 1
