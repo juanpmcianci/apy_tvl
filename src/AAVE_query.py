@@ -56,13 +56,13 @@ def build_df(token_address: str, start_date: str, end_date: str, decimals: int =
     cols=['variableBorrowRate', 'liquidityRate', 'stableBorrowRate']
     
     for c in cols: 
-        final_df[c]=final_df[c].aply(lambda x: float(x))/ RAY
+        final_df[c]=final_df[c].apply(lambda x: float(x))/ RAY
 
     final_df['depositAPY'] = ((1 + final_df.liquidityRate / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR) - 1
     final_df['variableBorrowAPY'] = ((1 + final_df.variableBorrowRate / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR) - 1
     final_df['stableBorrowAPY'] = ((1 + final_df.stableBorrowRate / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR) - 1
-    final_df['ReserveSizeToken'] = final_df['totalATokenSupply'] / 10**decimals
-    final_df['AvailableLiquidityToken'] = final_df['availableLiquidity'] / 10**decimals
+    final_df['ReserveSizeToken'] = final_df['totalATokenSupply'].apply(lambda x: float(x))/ 10**decimals
+    final_df['AvailableLiquidityToken'] = final_df['availableLiquidity'].apply(lambda x: float(x)) / 10**decimals
     final_df['time'] = pd.to_datetime(final_df['timestamp'], unit='s')
     final_df.sort_values(by='timestamp', inplace=True)
 
@@ -70,7 +70,7 @@ def build_df(token_address: str, start_date: str, end_date: str, decimals: int =
     return final_df
 
 token_id = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-start_date = '2023-11-10'
+start_date = '2022-11-10'
 end_date = '2023-11-11'
 
 df = build_df(token_id, start_date, end_date)
