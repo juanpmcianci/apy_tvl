@@ -56,7 +56,7 @@ def build_df(token_address: str, start_date: str, end_date: str, decimals: int =
     cols=['variableBorrowRate', 'liquidityRate', 'stableBorrowRate']
     
     for c in cols: 
-        final_df[c]=final_df[c].aaply(lambda x: float(x))/ RAY
+        final_df[c]=final_df[c].aply(lambda x: float(x))/ RAY
 
     final_df['depositAPY'] = ((1 + final_df.liquidityRate / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR) - 1
     final_df['variableBorrowAPY'] = ((1 + final_df.variableBorrowRate / SECONDS_PER_YEAR) ** SECONDS_PER_YEAR) - 1
