@@ -69,8 +69,9 @@ def build_df(token_address: str, start_date: str, end_date: str, decimals: int =
     print("Data successfully processed")
     return final_df
 
-token_id = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-start_date = '2022-11-10'
-end_date = '2023-11-11'
-
-df = build_df(token_id, start_date, end_date)
+if __name__=='__main__':
+    token_id = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+    start_date = '2022-11-10'
+    end_date = '2023-11-11'
+    
+    df = build_df(token_id, start_date, end_date)
